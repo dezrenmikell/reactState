@@ -1,5 +1,5 @@
 ---
-title: React State and Constructors
+title: React State
 type: Lesson
 creator:
     name: Danny Hurley and Jamie King
