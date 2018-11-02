@@ -7,7 +7,7 @@ creator:
 competencies: Front-end frameworks
 ---
 
-# React State and Constructors
+# React State
 
 ## Lesson Objectives
 
