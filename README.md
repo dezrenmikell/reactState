@@ -24,7 +24,7 @@ As we have seen in our exploration so far, most of our job as web developers cen
 
 Until now, we have stored "state" within our HTML `data-attributes` and `ids`. We've used `jQuery` to set and retrieve these values as we react to user input. This has worked out fine, but it requires quite a bit of work on our part. On top of that, the responsibility for handling our state has been shared between our HTML and Javascript files.
 
-React gives us a much simpler way to manage this state, and it allows us to keep all of it inside of our Javascript alone.
+React gives us a much simpler way to manage this state, and it allows us to keep all of it inside of our JavaScript alone.
 
 ## How does React manage state?(5 minutes, 0:10)
 
@@ -42,6 +42,14 @@ In many ways state and props operate similarly.  Both are plain JS Objects that 
 * State is declared within the component.
 
 ```javascript
+...
+  state = {
+    movie: "Blade Runner",
+    year: 1982
+  }
+
+  --OR--
+  // Older Syntax
   ...
   constructor(){
     super()
@@ -52,13 +60,6 @@ In many ways state and props operate similarly.  Both are plain JS Objects that 
   }
   ...
   
-  --OR--
-  
-  ...
-  state = {
-    movie: "Blade Runner",
-    year: 1982
-  }
 ```
 
 ### Props Are Immutable, State is Not
@@ -182,15 +183,11 @@ To add this item to our state, we'll follow best practices and add a `constructo
 	import React, {Component} from 'react';
 	
 	class HomePage extends Component {
-	
-	  constructor() {
-	    super();
-	
-	    this.state = {
-	      itemCurrentlyOnSale: 'A Hammer'
-	    };
-	  }
-	
+  
+    state = {
+	    itemCurrentlyOnSale: 'A Hammer'
+    }
+
 	  render() {
 	    return (
 	        <div>
@@ -204,20 +201,16 @@ To add this item to our state, we'll follow best practices and add a `constructo
 	export default HomePage;
 ```
 
-* If we look inside of this `constructor` function, we have defined a variable on `this.state` called `itemCurrentlyOnSale`. Now that we have this variable, we can replace our hard-coded string in the `render()` function with a reference to this variable, just like any other variable:
+* If we look inside of this class, we have defined a variable on `this.state` called `itemCurrentlyOnSale`. Now that we have this variable, we can replace our hard-coded string in the `render()` function with a reference to this variable, just like any other variable:
 
 ```javascript
 	import React, {Component} from 'react';
 	
 	class HomePage extends Component {
 	
-	  constructor() {
-	    super();
-	
-	    this.state = {
-	      itemCurrentlyOnSale: 'A Hammer'
-	    };
-	  }
+	  state = {
+      itemCurrentlyOnSale: 'A Hammer'
+    }
 	
 	  render() {
 	    return (
@@ -249,12 +242,8 @@ Now that we've created a variable to hold our sale item, we'll want to give our 
 
   class HomePage extends Component {
 
-    constructor() {
-      super();
-
-      this.state = {
-        itemCurrentlyOnSale: 'A Hammer'
-      };
+    state = {
+      itemCurrentlyOnSale: 'A Hammer'
     }
 
     render() {
@@ -275,14 +264,14 @@ Now that we've created a variable to hold our sale item, we'll want to give our 
   export default HomePage;
 ```
 
-* Since we want to toggle a text-input, we'll need some kind of `boolean` variable on our state to store this information. Let's create one in our `constructor` called `editSaleItem`, with a value of `true`:
+* Since we want to toggle a text-input, we'll need some kind of `boolean` variable on our state to store this information. Let's create one in our `state` called `editSaleItem`, with a value of `true`:
 
 ```javascript
   ...
-  this.state = {
+  state = {
     itemCurrentlyOnSale: 'A Hammer',
-     editSaleItem: true
-   }
+    editSaleItem: true
+  }
   ...
 ```
 
@@ -293,12 +282,9 @@ Now that we've created a variable to hold our sale item, we'll want to give our 
 
   class HomePage extends Component {
 
-    constructor() {
-      super();
-      this.state = {
-        itemCurrentlyOnSale: 'A Hammer',
-        editSaleItem: true
-      };
+    state = {
+      itemCurrentlyOnSale: 'A Hammer',
+      editSaleItem: true
     }
 
     render() {
@@ -335,7 +321,7 @@ Let's start by building a function to handle this behavior. Since we'll be toggl
 
 * Not quite what we expected to see? There's a little bit more going on here than we previously described. Let's explore what this function is doing:
 
-  * First, we are creating a new variable that is a copy of our `state` value. In the same line of code, we are flipping this value, so that our new variable contains the opposite of our current state value.
+  * First, we are creating a new variable that is the opposite of what is currently in our `editSaleItem` value.
 
   In other words, we are flipping our "toggle" and storing the value as a new variable, while using the same variable name as the property on our `state`.
 
@@ -347,7 +333,7 @@ Let's start by building a function to handle this behavior. Since we'll be toggl
   ...
 ```
 
-The use of `setState()` is a best practice and will allow us to avoid many common pitfalls that come from updating our component's state directly.
+The use of `setState()` is a best practice and will allow us to avoid many common pitfalls that come from updating our component's state directly.  `setState` is how we will always be manipulating items in our state.
 
 * Just like our jQuery days, we'll need to add some kind of `event listener` to our toggle button so it will run our function. Fortunately, React has several pre-built `events` that will handle all of this functionality for us. We simply need to build a function, and tell the button to trigger the function `onClick()`:
 
@@ -367,6 +353,7 @@ Now that we are toggling our input field in and out of the page, we probably wan
 * When `editSaleItem` is true, our button should say "Hide"
 
 <details>
+
   <summary><b>SOLUTION</b></summary>
 
 ```javascript
@@ -374,13 +361,9 @@ import React, {Component} from 'react';
 
 class HomePage extends Component {
 
-  constructor() {
-    super();
-
-    this.state = {
-      itemCurrentlyOnSale: 'A Hammer',
-      editSaleItem: true
-    };
+  state = {
+    itemCurrentlyOnSale: 'A Hammer',
+    editSaleItem: true
   }
 
   toggleEditSaleItem = () => {
@@ -410,7 +393,9 @@ class HomePage extends Component {
 
 export default HomePage;
 ```
+
 </details>
+
 ---
 
 ## Modifying State with Forms (20 minutes, 1:45)
@@ -485,7 +470,7 @@ Our input field is now disabled. When we try to change our text value, nothing h
       <div>
         <input 
           onChange={this.handleItemCurrentlyOnSaleChange}
-          value={this.state.itemCurrentlyOnSale} 
+          value={this.state.itemCurrentlyOnSale}
           type="text" />
       </div>
       : null
@@ -580,14 +565,11 @@ Let's build an Admin view that will allow us to create some Products for our har
   </p>
 </details>
 
-* Let's create our `productList` on the `state` of our HomePage component. Remember, we'll set up our `state` inside of our `constructor()` function:
+* Let's create our `productList` on the `state` of our HomePage component:
 
 ```javascript
   ...
-  constructor() {
-  super();
-
-  this.state = {
+  state = {
     itemCurrentlyOnSale: 'A Hammer',
     editSaleItem: true,
     productList: [
@@ -601,7 +583,7 @@ Let's build an Admin view that will allow us to create some Products for our har
         description: 'Itsa nail',
         price: 0.12,
       }
-    ]};
+    ]
   }
   ...
 
@@ -667,6 +649,9 @@ This `ProductList` will need access to the same `productList` we passed into our
       const description = this.props.description;
       const price = this.props.price;
 
+      // OR
+      // const { productName, description, price } = this.props
+
       return (
           <div>
             <h3>{productName}</h3>
@@ -691,12 +676,8 @@ This `ProductList` will need access to the same `productList` we passed into our
 
   class ProductForm extends Component {
 
-    constructor () {
-      super();
-
-      this.state = {
-        newProduct: {}
-      }
+    state = {
+      newProduct: {}
     }
 
     handleNewProductChange = (event) => {
@@ -740,7 +721,7 @@ This `ProductList` will need access to the same `productList` we passed into our
 
 * If we take a look at this `handleNewProductChange` function, we'll see some fancy new syntax. Just as we did with our toggle on the HomePage, we need to make a copy of the state value we are updating, instead of updating the state itself. the `{...this.state.newProduct}` block that you see is using a great new Javascript feature known as the `spread operator`. 
 
-This `...` syntax tells Javascript to make a copy of our `this.state.newProduct` object. The copy will have all of the previous info that our `newProduct` contained, but we can now edit this object without updating our `state` directly. We'll use our event info to change the `newProduct` object and then `.setState()` to store it back to our `state` itself.
+This `...` syntax tells JavaScript to make a copy of our `this.state.newProduct` object. The copy will have all of the previous info that our `newProduct` contained, but we can now edit this object without updating our `state` directly. We'll use our event info to change the `newProduct` object and then `.setState()` to store it back to our `state` itself.
 
 * Our `ProductForm` component will now successfully create a new product object for us. The big question we now have to answer is this: How do I get this object into the `productList` on my `HomePage` state?
 
