@@ -2,7 +2,7 @@
 title: React State and Constructors
 type: Lesson
 creator:
-    name: Danny Hurley 
+    name: Danny Hurley and Jamie King
     city: ATL
 competencies: Front-end frameworks
 ---
