@@ -820,6 +820,6 @@ Let's create a ShopView to show our product info in a different way.
 * Create your ShopView component and any necessary components to display the product info without any ability to edit.
 * Remember that Products are able to be deleted now, so we may need to create a different type of product component that does not have this ability.
 
-## You Do: Start On Homework!
+## You Do: Start On Exercise!
 
-[Add a shopping cart to our hardware store](../../../homework/react/hardware-store-shopping-cart.md)
+[Add a shopping cart to our hardware store](./hardware-store-shopping-cart.md)
