@@ -16,7 +16,7 @@ competencies: Front-end frameworks
 * Differentiate between state and props
 * Discuss the need to share `state` across different parts of the application
 * Share state across multiple React components
-* Use Constructors to manage state and set up default values
+
 
 ## What is "State"? (5 minutes, 0:05)
 
