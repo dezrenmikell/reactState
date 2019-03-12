@@ -26,9 +26,45 @@ Until now, we have stored "state" within our HTML `data-attributes` and `ids`. W
 
 React gives us a much simpler way to manage this state, and it allows us to keep all of it inside of our JavaScript alone.
 
-## How does React manage state?(5 minutes, 0:10)
+## How does React manage state? (5 minutes, 0:10)
 
-Each Component class that we create in React has a `this.state` variable already set up for us! React, by default, gives us this very simple way of managing our state. If we want to preserve some data within a React component, all we have to do is attach it to the `this.state` object using `dot-notation`.
+In each Component class that we create in React, we can initialize a default state by using a class property or by using a constructor function.
+
+```js
+  // state as a class property
+  class HelloWorld extends Component {
+    state = {
+      greeting: 'Hello'
+    }
+
+    render() {
+      return <h1>{this.state.greeting} World</h1>
+    }
+  }
+```
+
+```js
+  // state initialized in constructor function
+  class HelloWorld extends Component {
+    constructor() {
+      super()
+      this.state = {
+        greeting: 'Hello'
+      }
+    }
+
+    render() {
+      return <h1>{this.state.greeting} World</h1>
+    }
+  }
+```
+As you can see from the example above, `state` is just a regular JavaScript object, so when we need to access a piece of data from `state` we can use **dot notation** like we see in the `return` statement with `this.state.greeting`.
+
+When we want to update our state, we will use the `setState` method provided by React.
+
+```js
+this.setState({greeting: 'Howdy'})
+```
 
 While storing values in our `state` is really this simple, the complexity of `state-management` comes from sharing this `state` with multiple components. In this lesson, we will explore some common uses for React `state`. We will also practice modifying our `state` and then shared `state` to update multiple components at once.
 
@@ -174,7 +210,7 @@ Let's create the initial structure for our app:
 	
 * When we refresh, we'll see the new home page for our store! We're starting to make some progress, but what happens now when we want to quickly update the name of the item that's on sale? We don't want to have to edit our HTML every time a new item goes on sale... We should probably store it in a variable, so we can quickly change it for later. This variable will be the first item we store in our component's `state`!
 
-To add this item to our state, we'll follow best practices and add a `constructor()` function to our component. This `constructor` gives us a nice, central place to describe the state of our component when it is first initialized. Let's see what it looks like:
+To add this item to our state, we'll initialize our default `state` as a class property. This `state` object gives us a nice, central place to describe the state of our component. Let's see what it looks like:
 
 ```javascript
 	// src/components/HomePage.js
@@ -183,10 +219,9 @@ To add this item to our state, we'll follow best practices and add a `constructo
 	import React, {Component} from 'react';
 	
 	class HomePage extends Component {
-  
-    state = {
+	  state = {
 	    itemCurrentlyOnSale: 'A Hammer'
-    }
+	  }
 
 	  render() {
 	    return (
@@ -209,8 +244,8 @@ To add this item to our state, we'll follow best practices and add a `constructo
 	class HomePage extends Component {
 	
 	  state = {
-      itemCurrentlyOnSale: 'A Hammer'
-    }
+	    itemCurrentlyOnSale: 'A Hammer'
+	  }
 	
 	  render() {
 	    return (
@@ -409,13 +444,9 @@ Now that we are able to toggle our text-input on and off, it's time to update ou
 
   class HomePage extends Component {
 
-    constructor() {
-      super();
-
-      this.state = {
+    state = {
         itemCurrentlyOnSale: 'A Hammer',
         editSaleItem: true
-      };
     }
 
     toggleEditSaleItem = () => {
@@ -677,7 +708,11 @@ This `ProductList` will need access to the same `productList` we passed into our
   class ProductForm extends Component {
 
     state = {
-      newProduct: {}
+      newProduct: {
+        productName: '',
+        description: '',
+        price: ''
+      }
     }
 
     handleNewProductChange = (event) => {
@@ -694,10 +729,41 @@ This `ProductList` will need access to the same `productList` we passed into our
       return (
           <div>
             <form>
-              <div><input name="productName" type="text" placeholder="Name" onChange={this.handleNewProductChange}/></div>
-              <div><input name="description" type="text" placeholder="Description" onChange={this.handleNewProductChange}/></div>
-              <div><input name="price" type="number" min="0.00" step="0.01" placeholder="Price" onChange={this.handleNewProductChange}/></div>
-              <div><input type="submit" value="Create New Product"/></div>
+              <div>
+                <input
+                  name="productName"
+                  type="text"
+                  placeholder="Name"
+                  value={this.state.newProduct.productName}
+                  onChange={this.handleNewProductChange}
+                />
+              </div>
+              <div>
+                <input
+                  name="description"
+                  type="text"
+                  placeholder="Description"
+                  value={this.state.newProduct.description}
+                  onChange={this.handleNewProductChange}
+                />
+              </div>
+              <div>
+                <input
+                  name="price"
+                  type="number"
+                  min="0.00"
+                  step="0.01"
+                  placeholder="Price"
+                  value={this.state.newProduct.price}
+                  onChange={this.handleNewProductChange}
+                />
+              </div>
+              <div>
+                <input
+                  type="submit"
+                  value="Create New Product"
+                />
+              </div>
             </form>
           </div>
       );
@@ -779,10 +845,41 @@ This `...` syntax tells JavaScript to make a copy of our `this.state.newProduct`
   ...
   <div>
     <form onSubmit={this.addNewProduct}>
-      <div><input name="productName" type="text" placeholder="Name" onChange={this.handleNewProductChange}/></div>
-      <div><input name="description" type="text" placeholder="Description" onChange={this.handleNewProductChange}/></div>
-      <div><input name="price" type="number" min="0.00" step="0.01" placeholder="Price" onChange={this.handleNewProductChange}/></div>
-      <div><input type="submit" value="Create New Product"/></div>
+      <div>
+        <input
+          name="productName"
+          type="text"
+          placeholder="Name"
+          value={this.state.newProduct.productName}
+          onChange={this.handleNewProductChange}
+        />
+      </div>
+      <div>
+        <input
+          name="description"
+          type="text"
+          placeholder="Description"
+          value={this.state.newProduct.description}
+          onChange={this.handleNewProductChange}
+        />
+      </div>
+      <div>
+        <input
+          name="price"
+          type="number"
+          min="0.00"
+          step="0.01"
+          placeholder="Price"
+          value={this.state.newProduct.price}
+          onChange={this.handleNewProductChange}
+        />
+      </div>
+      <div>
+        <input
+          type="submit"
+          value="Create New Product"
+        />
+      </div>
     </form>
   </div>
   ...
